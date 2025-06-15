@@ -6,10 +6,10 @@ const app = express();
 dotenv.config();
 connectDB();
 
-// ✅ Add this to handle JSON POST data
+//Add this to handle JSON POST data
 app.use(express.json());
 
-// ✅ Routes
+// Routes
 app.use('/api/books', require('./routes/books'));
 app.use('/api/authors', require('./routes/authors'));
 app.use('/api/genres', require('./routes/genres'));
@@ -17,9 +17,6 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/cart', require('./routes/cart'));
 app.use('/api/orders', require('./routes/orders'));
 
-
-
-// and other routes...
 
 app.get('/', (req, res) => {
   res.send('Welcome to Bookstore API');

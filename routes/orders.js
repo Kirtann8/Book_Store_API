@@ -3,7 +3,10 @@ const router = express.Router();
 const orderController = require('../controllers/orderController');
 const auth = require('../middlewares/authMiddleware');
 
-router.post('/place', auth, orderController.placeOrder);
-router.get('/', auth, orderController.getOrders);
+// Order Routes
+router.post('/', auth, orderController.createOrder);      // Create order
+router.get('/', auth, orderController.getOrders);         // Get all orders
+router.get('/:id', auth, orderController.getOrderById);   // Get order by ID
+router.put('/:id', auth, orderController.updateOrder);    // Update order status
 
 module.exports = router;

@@ -2,7 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// 📝 Register New User
+// Register New User
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -26,7 +26,7 @@ exports.registerUser = async (req, res) => {
 };
 
 
-// 🔑 Login User
+// Login User
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
