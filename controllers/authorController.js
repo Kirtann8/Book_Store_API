@@ -31,7 +31,7 @@ exports.updateAuthor = async (req, res) => {
   try {
     const { name, bio } = req.body;
     const updatedAuthor = await Author.findByIdAndUpdate(
-      req.params.id,
+      req.params.id,  // URL Mathi ID find karva mate
       { name, bio },
       { new: true }
     );

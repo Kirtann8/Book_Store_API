@@ -125,7 +125,7 @@ exports.searchBooks = async (req, res) => {
       });
     }
 
-    const searchRegex = new RegExp(query, 'i'); // Case-insensitive search
+    const searchRegex = new RegExp(query, 'i'); // i for Case-insensitive search
 
     // Find authors and genres matching the search query
     const matchingAuthors = await Author.find({ name: searchRegex }).select('_id');
