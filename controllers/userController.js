@@ -1,23 +1,14 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const userService = require('../services/userService');
 
 // Register New User
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    const user = await userService.registerUser(name, email, password);
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: 'User already exists' });
-
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create user
-    const user = new User({ name, email, password: hashedPassword });
-    await user.save();
+    if (!user) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
 
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
@@ -30,19 +21,17 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    const token = await userService.loginUser(email, password);
 
-    // Find user
-    const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    // Compare passwords
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
-
-    // Generate Token
-    const token = jwt.sign({ userId: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
-      expiresIn: '7d'
-    });
+    if (!token) {
+      // This handles both user not found and invalid credentials
+      const userExists = await userService.checkUserExists(email);
+      if (userExists) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+      } else {
+        return res.status(404).json({ message: 'User not found' });
+      }
+    }
 
     res.json({ token });
   } catch (err) {

@@ -1,11 +1,10 @@
-const Author = require('../models/Author');
+const authorService = require('../services/authorService');
 
 // Create Author
 exports.createAuthor = async (req, res) => {
   try {
     const { name, bio } = req.body;
-    const author = new Author({ name, bio });
-    await author.save();
+    const author = await authorService.createAuthor({ name, bio });
     res.status(201).json(author);
   } catch (error) {
     res
@@ -17,7 +16,7 @@ exports.createAuthor = async (req, res) => {
 // Get All Authors
 exports.getAllAuthors = async (req, res) => {
   try {
-    const authors = await Author.find();
+    const authors = await authorService.getAllAuthors();
     res.json(authors);
   } catch (error) {
     res
@@ -30,10 +29,9 @@ exports.getAllAuthors = async (req, res) => {
 exports.updateAuthor = async (req, res) => {
   try {
     const { name, bio } = req.body;
-    const updatedAuthor = await Author.findByIdAndUpdate(
-      req.params.id,  // URL Mathi ID find karva mate
-      { name, bio },
-      { new: true }
+    const updatedAuthor = await authorService.updateAuthor(
+      req.params.id,
+      { name, bio }
     );
     res.json(updatedAuthor);
   } catch (error) {
@@ -44,8 +42,8 @@ exports.updateAuthor = async (req, res) => {
 // Delete Author
 exports.deleteAuthor = async (req, res) => {
   try {
-    await Author.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Author deleted successfully' });
+    const result = await authorService.deleteAuthor(req.params.id);
+    res.json(result);
   } catch (error) {
     res.status(500).json({ message: 'Delete failed', error: error.message });
   }

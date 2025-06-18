@@ -1,4 +1,4 @@
-const Book = require('../models/Book');
+const bookService = require('../services/bookService');
 const Author = require('../models/Author');
 const Genre = require('../models/Genre');
 
@@ -6,13 +6,7 @@ const Genre = require('../models/Genre');
 exports.createBook = async (req, res) => {
   try {
     const { title, author, genre, price, rating, description } = req.body;
-    const book = new Book({ title, author, genre, price, rating, description });
-    await book.save();
-
-    const populatedBook = await Book.findById(book._id)
-      .populate('author', 'name')
-      .populate('genre', 'name');
-
+    const populatedBook = await bookService.createBook({ title, author, genre, price, rating, description });
     res.status(201).json({
       success: true,
       data: populatedBook
@@ -29,22 +23,7 @@ exports.createBook = async (req, res) => {
 exports.getAllBooks = async (req, res) => {
   try {
     const { sortBy, sortOrder } = req.query;
-    let query = Book.find();
-
-    const allowedSortFields = ['title', 'price', 'rating', 'createdAt'];
-    const sortOptions = {};
-
-    if (sortBy && allowedSortFields.includes(sortBy)) {
-      sortOptions[sortBy] = sortOrder === 'desc' ? -1 : 1;
-    } else {
-      // Default sort if no valid sortBy is provided
-      sortOptions.createdAt = -1; 
-    }
-    query = query.sort(sortOptions);
-
-    const books = await query
-      .populate('author', 'name')
-      .populate('genre', 'name');
+    const books = await bookService.getAllBooks(sortBy, sortOrder);
     res.json({
       success: true,
       data: books
@@ -61,10 +40,9 @@ exports.getAllBooks = async (req, res) => {
 exports.updateBook = async (req, res) => {
   try {
     const { title, author, genre, price, rating, description } = req.body;
-    const updatedBook = await Book.findByIdAndUpdate(
+    const updatedBook = await bookService.updateBook(
       req.params.id,
-      { title, author, genre, price, rating, description },
-      { new: true }
+      { title, author, genre, price, rating, description }
     );
 
     if (!updatedBook) {
@@ -74,13 +52,9 @@ exports.updateBook = async (req, res) => {
       });
     }
 
-    const populatedBook = await Book.findById(updatedBook._id)
-      .populate('author', 'name')
-      .populate('genre', 'name');
-
     res.json({
       success: true,
-      data: populatedBook
+      data: updatedBook
     });
   } catch (error) {
     res.status(500).json({ 
@@ -93,7 +67,7 @@ exports.updateBook = async (req, res) => {
 // Delete Book
 exports.deleteBook = async (req, res) => {
   try {
-    const deletedBook = await Book.findByIdAndDelete(req.params.id);
+    const deletedBook = await bookService.deleteBook(req.params.id);
     
     if (!deletedBook) {
       return res.status(404).json({
@@ -125,32 +99,7 @@ exports.searchBooks = async (req, res) => {
       });
     }
 
-    const searchRegex = new RegExp(query, 'i'); // i for Case-insensitive search
-
-    // Find authors and genres matching the search query
-    const matchingAuthors = await Author.find({ name: searchRegex }).select('_id');
-    const matchingGenres = await Genre.find({ name: searchRegex }).select('_id');
-
-    const authorIds = matchingAuthors.map(author => author._id);
-    const genreIds = matchingGenres.map(genre => genre._id);
-
-    const searchConditions = [
-      { title: searchRegex },
-      { description: searchRegex },
-    ];
-
-    if (authorIds.length > 0) {
-      searchConditions.push({ author: { $in: authorIds } });
-    }
-    if (genreIds.length > 0) {
-      searchConditions.push({ genre: { $in: genreIds } });
-    }
-
-    const books = await Book.find({
-      $or: searchConditions
-    })
-      .populate('author', 'name')
-      .populate('genre', 'name');
+    const books = await bookService.searchBooks(query);
 
     res.json({
       success: true,
