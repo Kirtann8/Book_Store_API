@@ -7,7 +7,20 @@
 	"item": [
 		{
 			"name": "Authentication",
-			"item": [],
+			"item": [
+				{
+					"name": "New Request",
+					"id": "43680434-119d82e3-0f03-4ed0-9604-f6671a7a124e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
 			"id": "43680434-c357485f-6d6e-4adb-ab76-867cdd59568c"
 		},
 		{
