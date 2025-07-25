@@ -21,7 +21,7 @@ exports.loginUser = async (email, password) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) return null; // Indicates invalid credentials
 
-  const token = jwt.sign({ userId: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, {
     expiresIn: '7d'
   });
   return token;

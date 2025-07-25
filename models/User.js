@@ -3,20 +3,24 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    index: true // Index for searching users by name
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    index: true // Index for quick email lookups during login
   },
   password: { // hashed password
     type: String,
     required: true
   },
-  isAdmin: {
-    type: Boolean,
-    default: false
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user',
+    index: true // Index for role-based queries
   },
   cart: [{
     book: {

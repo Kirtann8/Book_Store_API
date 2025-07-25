@@ -25,20 +25,25 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-// Get All Orders
-exports.getOrders = async (req, res) => {
+// Get Orders (all for admin, user-specific for regular users)
+exports.getOrders = async (req, res, next) => {
   try {
-    const orders = await orderService.getOrders(req.user.userId);
+    let orders;
+    if (req.user.role === 'admin') {
+      // Admin can see all orders
+      orders = await Order.find().populate('user', 'name email');
+    } else {
+      // Regular users can only see their own orders
+      orders = await Order.find({ user: req.user.userId });
+    }
 
     res.json({
-      success: true,
+      status: 'success',
+      results: orders.length,
       data: orders
     });
   } catch (err) {
-    res.status(500).json({ 
-      success: false, 
-      error: err.message 
-    });
+    next(new AppError('Error fetching orders', 500));
   }
 };
 
