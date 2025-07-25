@@ -25,7 +25,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"name\": \"Test User\",\r\n        \"email\": \"test@example.com\",\r\n        \"password\": \"Test123!@#\"\r\n      }",
+							"raw": "{\r\n        \"name\": \"Test User\",\r\n        \"email\": \"test@example.com\",\r\n        \"password\": \"Test123!@#\"\r\n      }x`",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -52,8 +52,18 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
 					},
 					"response": []
 				}
