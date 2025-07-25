@@ -1,0 +1,34 @@
+{
+	"info": {
+		"_postman_id": "43680434-d90bdb86-1bfc-4ed1-94b3-822df76f4d48",
+		"name": "Book Store API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [],
+			"id": "43680434-c357485f-6d6e-4adb-ab76-867cdd59568c"
+		},
+		{
+			"name": "Books",
+			"item": [],
+			"id": "43680434-ec42fe30-d227-4ff8-a18a-db54e779b542"
+		},
+		{
+			"name": "Authors",
+			"item": [],
+			"id": "43680434-6bbc5590-da4e-4d29-a6b8-d2913b52cd3c"
+		},
+		{
+			"name": "Cart",
+			"item": [],
+			"id": "43680434-6c40d7e9-1e8a-4c21-8913-f0108759cb07"
+		},
+		{
+			"name": "Orders",
+			"item": [],
+			"id": "43680434-b4479450-5966-4b12-ad3d-a70791a3151e"
+		}
+	]
+}
