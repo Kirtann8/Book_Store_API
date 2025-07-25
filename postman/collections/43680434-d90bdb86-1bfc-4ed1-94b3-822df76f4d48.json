@@ -9,7 +9,7 @@
 			"name": "Authentication",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "Register",
 					"id": "43680434-119d82e3-0f03-4ed0-9604-f6671a7a124e",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
