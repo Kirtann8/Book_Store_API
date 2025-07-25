@@ -84,7 +84,32 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODgzY2E1MjZkOWFlN2UzZDRlZTczOWEiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1MzQ2NzYwMCwiZXhwIjoxNzU0MDcyNDAwfQ.KRwI9bCCr5IFzGx0aYUEFxuMxFUXvh448KvlK9o8Ous\n",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{        \"email\": \"test@exampl1e.com\",\r\n        \"password\": \"Test123!@#\"\r\n      }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
 					},
 					"response": []
 				}
