@@ -75,6 +75,18 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "get users",
+					"id": "43680434-8a9d2048-2e31-4167-9e00-de11cb66cbec",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "43680434-c357485f-6d6e-4adb-ab76-867cdd59568c"
