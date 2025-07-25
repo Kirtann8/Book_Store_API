@@ -16,10 +16,16 @@
 					},
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"name\": \"Test User\",\r\n        \"email\": \"test@example.com\",\r\n        \"password\": \"Test123!@#\"\r\n      }",
+							"raw": "{\r\n  \"name\": \"Kirtan Patel\",\r\n  \"email\": \"kirtan@example.com\",\r\n  \"password\": \"strongpassword123\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
