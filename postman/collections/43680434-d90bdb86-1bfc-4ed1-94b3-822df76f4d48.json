@@ -56,7 +56,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{        \"email\": \"test@example.com\",\r\n        \"password\": \"Test123!@#\"\r\n      }",
+							"raw": "{\r\n  \"name\": \"Admin User\",\r\n  \"email\": \"admin@example1.com\",\r\n  \"password\": \"Admin123!@#\"\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
