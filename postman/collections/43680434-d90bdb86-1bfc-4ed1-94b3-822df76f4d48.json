@@ -83,6 +83,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODgzY2MzODFmZTdhYzk0NzY2MDJjODEiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1MzQ2OTM2NSwiZXhwIjoxNzU0MDc0MTY1fQ.BH8VoDSpatFGT7YAVT3kO-_tqpzVMcmOAYEX0Xflmho",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -93,7 +103,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Admin User\",\r\n  \"email\": \"admin@example1.com\",\r\n  \"password\": \"Admin123!@#\"\r\n  }",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
