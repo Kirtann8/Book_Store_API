@@ -48,6 +48,22 @@
 				},
 				{
 					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3aa841e2-1578-447c-beaf-038e9d9a2716",
+								"exec": [
+									"// In the Tests tab of the login request\r",
+									"if (pm.response.code === 200 && pm.response.json().token) {\r",
+									"    pm.environment.set(\"user_token\", pm.response.json().token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"id": "43680434-561abb04-6626-4865-a6c0-2cf0a1cfd986",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
