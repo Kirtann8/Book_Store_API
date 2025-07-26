@@ -33,14 +33,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/users/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"register"
-							]
+							"raw": ""
 						}
 					},
 					"response": []
