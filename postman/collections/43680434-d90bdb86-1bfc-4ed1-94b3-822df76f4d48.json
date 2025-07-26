@@ -53,10 +53,15 @@
 							"script": {
 								"id": "3aa841e2-1578-447c-beaf-038e9d9a2716",
 								"exec": [
-									"// In the Tests tab of the login request\r",
-									"if (pm.response.code === 200 && pm.response.json().token) {\r",
-									"    pm.environment.set(\"user_token\", pm.response.json().token);\r",
-									"}"
+									"try {\r",
+									"    let jsonData = pm.response.json();\r",
+									"    if (pm.response.code === 200 && jsonData.token) {\r",
+									"        pm.environment.set(\"user_token\", jsonData.token);\r",
+									"    }\r",
+									"} catch (error) {\r",
+									"    console.error(\"Failed to parse response or set token:\", error);\r",
+									"}\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
