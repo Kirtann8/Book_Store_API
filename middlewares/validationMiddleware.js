@@ -8,11 +8,8 @@ const { AppError } = require('./errorMiddleware');
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const errorMessages = errors.array().map(err => ({
-      field: err.path,
-      message: err.msg
-    }));
-    return next(new AppError('Validation Error', 400, errorMessages));
+    const errorMessages = errors.array().map(err => `${err.path}: ${err.msg}`).join(', ');
+    return next(new AppError(errorMessages, 400));
   }
   next();
 };
@@ -51,7 +48,7 @@ exports.validateUser = [
     .custom(isUnique(User, 'email')),
   body('password')
     .isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}|\[\]:";'<>?,./])[A-Za-z\d!@#$%^&*()_+\-={}|\[\]:";'<>?,./]{6,}$/)
     .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number and one special character'),
   handleValidationErrors,
 ];

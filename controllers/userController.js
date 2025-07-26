@@ -5,10 +5,10 @@ const logger = require('../config/logger');
 // Register New User
 exports.registerUser = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
     
     logger.info('Attempting to register new user', { email });
-    const user = await userService.registerUser(name, email, password);
+    const user = await userService.registerUser(name, email, password, role);
 
     if (!user) {
       return next(new AppError('User with this email already exists', 400));

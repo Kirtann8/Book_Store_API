@@ -1,40 +1,79 @@
-const User = require('../models/User');
-const Order = require('../models/Order');
+const orderDAO = require('../dao/orderDAO');
+const userDAO = require('../dao/userDAO');
 
 exports.createOrder = async (userId, shippingAddress, paymentMethod) => {
-  const user = await User.findById(userId).populate('cart.book');
+  try {
+    const user = await userDAO.findById(userId);
+    if (!user || user.cart.length === 0) {
+      return null; // Indicates user not found or empty cart
+    }
+
+    const orderData = {
+      user: user._id,
+      items: user.cart,
+      totalAmount: user.cart.reduce((acc, item) => acc + item.book.price * item.quantity, 0),
+      shippingAddress,
+      paymentMethod,
+      status: 'Placed'
+    };
+
+    const order = await orderDAO.create(orderData);
     
-  if (user.cart.length === 0) {
-    return null; // Indicates empty cart
+    // Clear the user's cart after successful order
+    await userDAO.updateById(userId, { cart: [] });
+    
+    return order;
+  } catch (error) {
+    throw new Error(`Error creating order: ${error.message}`);
   }
 
-  const order = new Order({
-    user: user._id,
-    items: user.cart,
-    totalAmount: user.cart.reduce((acc, item) => acc + item.book.price * item.quantity, 0),
-    shippingAddress,
-    paymentMethod,
-    status: 'Placed'
-  });
-
-  await order.save();
-  
-  // Clear the user's cart after successful order
-  user.cart = [];
-  await user.save();
-
-  const populatedOrder = await Order.findById(order._id)
-    .populate('items.book')
-    .populate('user', 'name email');
-
-  return populatedOrder;
 };
 
+exports.getUserOrders = async (userId) => {
+  try {
+    return await orderDAO.findByUserId(userId);
+  } catch (error) {
+    throw new Error(`Error fetching user orders: ${error.message}`);
+  }
+};
+
+exports.getAllOrders = async () => {
+  try {
+    return await orderDAO.findAll();
+  } catch (error) {
+    throw new Error(`Error fetching all orders: ${error.message}`);
+  }
+};
+
+exports.getOrderById = async (orderId) => {
+  try {
+    return await orderDAO.findById(orderId);
+  } catch (error) {
+    throw new Error(`Error fetching order: ${error.message}`);
+  }
+};
+
+exports.updateOrderStatus = async (orderId, status) => {
+  try {
+    return await orderDAO.updateById(orderId, { status });
+  } catch (error) {
+    throw new Error(`Error updating order status: ${error.message}`);
+  }
+};
+
+exports.deleteOrder = async (orderId) => {
+  try {
+    return await orderDAO.deleteById(orderId);
+  } catch (error) {
+    throw new Error(`Error deleting order: ${error.message}`);
+  }
+};
 exports.getOrders = async (userId) => {
-  const orders = await Order.find({ user: userId })
-    .populate('items.book')
-    .sort({ createdAt: -1 });
-  return orders;
+  try {
+    return await orderDAO.findByUserId(userId);
+  } catch (error) {
+    throw new Error(`Error fetching user orders: ${error.message}`);
+  }
 };
 
 exports.getOrderById = async (orderId, userId) => {

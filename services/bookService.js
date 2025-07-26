@@ -1,80 +1,114 @@
-const Book = require('../models/Book');
-const Author = require('../models/Author');
-const Genre = require('../models/Genre');
+const bookDAO = require('../dao/bookDAO');
+const { bookSchemas, validate } = require('../utils/validation');
+const { CACHE_KEYS, withCache, clearCacheByPattern } = require('../utils/cache');
+const { createPaginationOptions, formatPaginatedResponse } = require('../utils/pagination');
 
 exports.createBook = async (bookData) => {
-  const book = new Book(bookData);
-  await book.save();
-  const populatedBook = await Book.findById(book._id)
-    .populate('author', 'name')
-    .populate('genre', 'name');
-  return populatedBook;
+  try {
+    // Validate input data
+    const validatedData = validate(bookData, bookSchemas.create);
+    
+    // Create book
+    const newBook = await bookDAO.create(validatedData);
+    
+    // Clear relevant caches
+    clearCacheByPattern('books');
+    
+    return newBook;
+  } catch (error) {
+    throw new Error(`Error creating book: ${error.message}`);
+  }
 };
 
-exports.getAllBooks = async (sortBy, sortOrder) => {
-  let query = Book.find();
+exports.getAllBooks = async (query = {}) => {
+  try {
+    const { sortBy, sortOrder, page, limit, ...filters } = query;
+    
+    // Create sort options
+    const allowedSortFields = ['title', 'price', 'rating', 'createdAt'];
+    const sortOptions = {};
+    if (sortBy && allowedSortFields.includes(sortBy)) {
+      sortOptions[sortBy] = sortOrder === 'desc' ? -1 : 1;
+    } else {
+      sortOptions.createdAt = -1;
+    }
 
-  const allowedSortFields = ['title', 'price', 'rating', 'createdAt'];
-  const sortOptions = {};
+    // Create pagination options
+    const paginationOptions = createPaginationOptions({ page, limit });
 
-  if (sortBy && allowedSortFields.includes(sortBy)) {
-    sortOptions[sortBy] = sortOrder === 'desc' ? -1 : 1;
-  } else {
-    sortOptions.createdAt = -1;
+    // Get data with caching
+    const cacheKey = `books_${JSON.stringify({ sortOptions, paginationOptions, filters })}`;
+    const { data, total } = await withCache(
+      cacheKey,
+      async () => {
+        const [data, total] = await Promise.all([
+          bookDAO.findAll(sortOptions, filters, paginationOptions),
+          bookDAO.count(filters)
+        ]);
+        return { data, total };
+      }
+    );
+
+    return formatPaginatedResponse(data, total, paginationOptions);
+  } catch (error) {
+    throw new Error(`Error fetching books: ${error.message}`);
   }
-  query = query.sort(sortOptions);
-
-  const books = await query
-    .populate('author', 'name')
-    .populate('genre', 'name');
-  return books;
 };
 
 exports.updateBook = async (id, bookData) => {
-  const updatedBook = await Book.findByIdAndUpdate(
-    id,
-    bookData,
-    { new: true }
-  );
-  if (!updatedBook) {
-    return null;
+  try {
+    const updatedBook = await bookDAO.updateById(id, bookData);
+    if (!updatedBook) {
+      return null;
+    }
+    return updatedBook;
+  } catch (error) {
+    throw new Error(`Error updating book: ${error.message}`);
   }
-  const populatedBook = await Book.findById(updatedBook._id)
-    .populate('author', 'name')
-    .populate('genre', 'name');
-  return populatedBook;
 };
 
 exports.deleteBook = async (id) => {
-  const deletedBook = await Book.findByIdAndDelete(id);
-  return deletedBook;
+  try {
+    return await bookDAO.deleteById(id);
+  } catch (error) {
+    throw new Error(`Error deleting book: ${error.message}`);
+  }
 };
 
 exports.searchBooks = async (query) => {
-  const searchRegex = new RegExp(query, 'i');
+  try {
+    const authorDAO = require('../dao/authorDAO');
+    const genreDAO = require('../dao/genreDAO');
+    const searchRegex = new RegExp(query, 'i');
 
-  const matchingAuthors = await Author.find({ name: searchRegex }).select('_id');
-  const matchingGenres = await Genre.find({ name: searchRegex }).select('_id');
+    // Search for matching authors and genres
+    const [matchingAuthors, matchingGenres] = await Promise.all([
+      authorDAO.findAll(), // We'll filter in memory since we need regex
+      genreDAO.findAll()  // We'll filter in memory since we need regex
+    ]);
 
-  const authorIds = matchingAuthors.map(author => author._id);
-  const genreIds = matchingGenres.map(genre => genre._id);
+    const authorIds = matchingAuthors
+      .filter(author => searchRegex.test(author.name))
+      .map(author => author._id);
+    
+    const genreIds = matchingGenres
+      .filter(genre => searchRegex.test(genre.name))
+      .map(genre => genre._id);
 
-  const searchConditions = [
-    { title: searchRegex },
-    { description: searchRegex },
-  ];
+    const searchConditions = [
+      { title: searchRegex },
+      { description: searchRegex }
+    ];
 
-  if (authorIds.length > 0) {
-    searchConditions.push({ author: { $in: authorIds } });
+    if (authorIds.length > 0) {
+      searchConditions.push({ author: { $in: authorIds } });
+    }
+    if (genreIds.length > 0) {
+      searchConditions.push({ genre: { $in: genreIds } });
+    }
+
+    return await bookDAO.findByConditions({ $or: searchConditions });
+  } catch (error) {
+    throw new Error(`Error searching books: ${error.message}`);
   }
-  if (genreIds.length > 0) {
-    searchConditions.push({ genre: { $in: genreIds } });
-  }
-
-  const books = await Book.find({
-    $or: searchConditions
-  })
-    .populate('author', 'name')
-    .populate('genre', 'name');
-  return books;
 }; 

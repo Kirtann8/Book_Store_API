@@ -1,26 +1,41 @@
-const Author = require('../models/Author');
+const authorDAO = require('../dao/authorDAO');
 
 exports.createAuthor = async (authorData) => {
-  const author = new Author(authorData);
-  await author.save();
-  return author;
+  try {
+    return await authorDAO.create(authorData);
+  } catch (error) {
+    throw new Error(`Error creating author: ${error.message}`);
+  }
 };
 
 exports.getAllAuthors = async () => {
-  const authors = await Author.find();
-  return authors;
+  try {
+    return await authorDAO.findAll();
+  } catch (error) {
+    throw new Error(`Error fetching authors: ${error.message}`);
+  }
 };
 
 exports.updateAuthor = async (id, authorData) => {
-  const updatedAuthor = await Author.findByIdAndUpdate(
-    id,
-    authorData,
-    { new: true }
-  );
-  return updatedAuthor;
+  try {
+    const updatedAuthor = await authorDAO.updateById(id, authorData);
+    if (!updatedAuthor) {
+      throw new Error('Author not found');
+    }
+    return updatedAuthor;
+  } catch (error) {
+    throw new Error(`Error updating author: ${error.message}`);
+  }
 };
 
 exports.deleteAuthor = async (id) => {
-  await Author.findByIdAndDelete(id);
-  return { message: 'Author deleted successfully' };
+  try {
+    const deletedAuthor = await authorDAO.deleteById(id);
+    if (!deletedAuthor) {
+      throw new Error('Author not found');
+    }
+    return { message: 'Author deleted successfully' };
+  } catch (error) {
+    throw new Error(`Error deleting author: ${error.message}`);
+  }
 }; 
