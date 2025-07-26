@@ -81,9 +81,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/users/login",
+							"raw": "{{base_url}}/users/login",
 							"host": [
-								"{{baseUrl}}"
+								"{{base_url}}"
 							],
 							"path": [
 								"users",
