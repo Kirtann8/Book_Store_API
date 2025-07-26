@@ -158,7 +158,17 @@
 								"value": "Bearer {{user_token}}",
 								"type": "text"
 							}
-						]
+						],
+						"url": {
+							"raw": "{{base_url}}/user/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
 					},
 					"response": []
 				}
