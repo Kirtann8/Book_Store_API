@@ -72,7 +72,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Test User\",\r\n  \"email\": \"testuser2@example1.com\",\r\n  \"password\": \"Test@456XYZ\"\r\n  }\r\n",
+							"raw": "{\r\n  \"email\": \"{{user_email}}\",\r\n  \"password\": \"{{user_password}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
