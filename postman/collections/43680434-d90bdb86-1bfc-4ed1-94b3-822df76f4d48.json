@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "43680434-d90bdb86-1bfc-4ed1-94b3-822df76f4d48",
+		"name": "Book Store API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"id": "43680434-119d82e3-0f03-4ed0-9604-f6671a7a124e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Test User\",\r\n  \"email\": \"{{user_email}}\",\r\n  \"password\": \"{{user_password}}\",\r\n  \"role\": \"user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3aa841e2-1578-447c-beaf-038e9d9a2716",
+								"exec": [
+									"try {\r",
+									"    let jsonData = pm.response.json();\r",
+									"    if (pm.response.code === 200 && jsonData.token) {\r",
+									"        pm.environment.set(\"user_token\", jsonData.token);\r",
+									"    }\r",
+									"} catch (error) {\r",
+									"    console.error(\"Failed to parse response or set token:\", error);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "43680434-561abb04-6626-4865-a6c0-2cf0a1cfd986",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{user_email}}\",\r\n  \"password\": \"{{user_password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get users",
+					"id": "43680434-8a9d2048-2e31-4167-9e00-de11cb66cbec",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODgzZDI1OWNiODVkOWM2NGE2MTYyODkiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1MzQ2OTU0MSwiZXhwIjoxNzU0MDc0MzQxfQ.d6ATXDCrg0nCipBuPD-YswsIcsFTmCC-Ju4RU2rZh40",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODgzZDMwMWNiODVkOWM2NGE2MTYyOTciLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTM0Njk3MTQsImV4cCI6MTc1NDA3NDUxNH0.HjytQFkiIj6ZAznjWtxR-rkB8nzeQUVQ3kmThqcKhP4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "43680434-82e070e9-55c6-4239-bf83-36f3318de199",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "43680434-c357485f-6d6e-4adb-ab76-867cdd59568c"
+		},
+		{
+			"name": "Books",
+			"item": [],
+			"id": "43680434-ec42fe30-d227-4ff8-a18a-db54e779b542"
+		},
+		{
+			"name": "Authors",
+			"item": [],
+			"id": "43680434-6bbc5590-da4e-4d29-a6b8-d2913b52cd3c"
+		},
+		{
+			"name": "Cart",
+			"item": [],
+			"id": "43680434-6c40d7e9-1e8a-4c21-8913-f0108759cb07"
+		},
+		{
+			"name": "Orders",
+			"item": [],
+			"id": "43680434-b4479450-5966-4b12-ad3d-a70791a3151e"
+		}
+	]
+}
