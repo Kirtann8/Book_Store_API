@@ -1,0 +1,2 @@
+{"email":"test20250803190059@example.com","error":"Registration failed: Error creating user: db already exists with different case already have: [BookStoreDB] trying to create [bookstoreDB]","level":"error","message":"Registration failed","timestamp":"2025-08-03 19:01:00"}
+{"email":"test20250803190453@example.com","error":"Registration failed: Error creating user: db already exists with different case already have: [BookStoreDB] trying to create [bookstoreDB]","level":"error","message":"Registration failed","timestamp":"2025-08-03 19:04:53"}

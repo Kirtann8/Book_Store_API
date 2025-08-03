@@ -1,21 +1,20 @@
 const genreService = require('../services/genreService');
+const { success } = require('../utils/responseHandler');
 
-//  Create Genre
-exports.createGenre = async (req, res) => {
+exports.createGenre = async (req, res, next) => {
   try {
     const genre = await genreService.createGenre(req.body);
-    res.status(201).json(genre);
+    success(res, genre, 'Genre created successfully', 201);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to create genre', error: err.message });
+    next(err);
   }
 };
 
-//  Get All Genres
-exports.getAllGenres = async (req, res) => {
+exports.getAllGenres = async (req, res, next) => {
   try {
     const genres = await genreService.getAllGenres();
-    res.json(genres);
+    success(res, genres, 'Genres fetched successfully');
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch genres', error: err.message });
+    next(err);
   }
 };

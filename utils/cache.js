@@ -1,52 +1,67 @@
-const NodeCache = require('node-cache');
+const cache = new Map();
 
-// Create cache instances with different TTLs (Time To Live)
-const shortTermCache = new NodeCache({ stdTTL: 300 }); // 5 minutes
-const longTermCache = new NodeCache({ stdTTL: 3600 }); // 1 hour
-
-// Cache keys
-const CACHE_KEYS = {
-  ALL_BOOKS: 'all_books',
-  ALL_AUTHORS: 'all_authors',
-  ALL_GENRES: 'all_genres',
-  BOOK_BY_ID: (id) => `book_${id}`,
-  AUTHOR_BY_ID: (id) => `author_${id}`,
-  GENRE_BY_ID: (id) => `genre_${id}`
-};
-
-/**
- * Generic cache wrapper for async functions
- * @param {string} key - Cache key
- * @param {Function} fn - Async function to execute if cache miss
- * @param {Object} cache - Cache instance to use
- * @returns {Promise<any>} - Cached or fresh data
- */
-const withCache = async (key, fn, cache = shortTermCache) => {
-  const cachedData = cache.get(key);
-  if (cachedData !== undefined) {
-    return cachedData;
+// Professional caching service
+class CacheService {
+  static set(key, value, ttl = 300) {
+    const expiry = Date.now() + (ttl * 1000);
+    cache.set(key, { value, expiry });
+    return true;
   }
 
-  const freshData = await fn();
-  cache.set(key, freshData);
-  return freshData;
-};
+  static get(key) {
+    const item = cache.get(key);
+    if (!item) return null;
+    
+    if (Date.now() > item.expiry) {
+      cache.delete(key);
+      return null;
+    }
+    return item.value;
+  }
 
-/**
- * Clear cache entries by pattern
- * @param {string} pattern - Pattern to match cache keys
- * @param {Object} cache - Cache instance to clear
- */
-const clearCacheByPattern = (pattern, cache = shortTermCache) => {
-  const keys = cache.keys();
-  const matchingKeys = keys.filter(key => key.includes(pattern));
-  cache.del(matchingKeys);
+  static del(key) {
+    return cache.delete(key);
+  }
+
+  static clear() {
+    cache.clear();
+  }
+
+  static keys() {
+    return Array.from(cache.keys());
+  }
+
+  static stats() {
+    return {
+      size: cache.size,
+      keys: this.keys()
+    };
+  }
+}
+
+// Cache middleware for GET requests
+const cacheMiddleware = (duration = 300) => {
+  return (req, res, next) => {
+    if (req.method !== 'GET') return next();
+    
+    const key = `api:${req.originalUrl}`;
+    const cached = CacheService.get(key);
+    
+    if (cached) {
+      return res.json(cached);
+    }
+    
+    res.sendResponse = res.json;
+    res.json = (body) => {
+      CacheService.set(key, body, duration);
+      res.sendResponse(body);
+    };
+    
+    next();
+  };
 };
 
 module.exports = {
-  shortTermCache,
-  longTermCache,
-  CACHE_KEYS,
-  withCache,
-  clearCacheByPattern
+  CacheService,
+  cacheMiddleware
 };

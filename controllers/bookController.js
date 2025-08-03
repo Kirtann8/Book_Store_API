@@ -127,37 +127,65 @@ exports.deleteBook = async (req, res, next) => {
 // Search Books
 exports.searchBooks = async (req, res, next) => {
   try {
-    const { query, minPrice, maxPrice, genre } = req.query;
+    const { q, query, minPrice, maxPrice, genre } = req.query;
+    const searchTerm = q || query;
     
-    if (!query) {
+    if (!searchTerm) {
       return next(new AppError('Search query is required', 400));
     }
 
-    // Build search query
-    const searchQuery = {
-      $text: { $search: query }  // Use text index for full-text search
-    };
+    let books = [];
+    
+    try {
+      // Try text index search first
+      const searchQuery = {
+        $text: { $search: searchTerm }
+      };
 
-    // Add optional filters
-    if (minPrice || maxPrice) {
-      searchQuery.price = {};
-      if (minPrice) searchQuery.price.$gte = parseFloat(minPrice);
-      if (maxPrice) searchQuery.price.$lte = parseFloat(maxPrice);
+      // Add optional filters
+      if (minPrice || maxPrice) {
+        searchQuery.price = {};
+        if (minPrice) searchQuery.price.$gte = parseFloat(minPrice);
+        if (maxPrice) searchQuery.price.$lte = parseFloat(maxPrice);
+      }
+
+      if (genre) {
+        searchQuery.genre = genre;
+      }
+
+      books = await Book.find(searchQuery)
+        .select('title author genre price averageRating coverImage')
+        .populate('author', 'name')
+        .populate('genre', 'name')
+        .lean()
+        .sort({ 
+          score: { $meta: 'textScore' },
+          averageRating: -1
+        });
+    } catch (textSearchError) {
+      // Fallback to regex search if text index fails
+      const regexQuery = {
+        title: { $regex: searchTerm, $options: 'i' }
+      };
+
+      // Add optional filters
+      if (minPrice || maxPrice) {
+        regexQuery.price = {};
+        if (minPrice) regexQuery.price.$gte = parseFloat(minPrice);
+        if (maxPrice) regexQuery.price.$lte = parseFloat(maxPrice);
+      }
+
+      if (genre) {
+        regexQuery.genre = genre;
+      }
+
+      books = await Book.find(regexQuery)
+        .select('title author genre price averageRating coverImage')
+        .populate('author', 'name')
+        .populate('genre', 'name')
+        .lean()
+        .sort({ averageRating: -1 });
     }
-
-    if (genre) {
-      searchQuery.genre = genre;
-    }
-
-    const books = await Book.find(searchQuery)
-      .select('title author genre price averageRating coverImage')  // Select only necessary fields
-      .populate('author', 'name')
-      .populate('genre', 'name')
-      .lean()
-      .sort({ 
-        score: { $meta: 'textScore' },  // Sort by text match relevance
-        averageRating: -1               // Then by rating
-      });
 
     res.status(200).json({
       status: 'success',

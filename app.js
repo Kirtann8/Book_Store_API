@@ -8,6 +8,9 @@ const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/db');
 const logger = require('./config/logger');
 const { errorHandler, AppError } = require('./middlewares/errorMiddleware');
+const { mongoSanitize, xssClean } = require('./middlewares/sanitizeMiddleware');
+const { requestTimer, memoryMonitor } = require('./middlewares/performanceMiddleware');
+const analytics = require('./utils/analytics');
 const path = require('path');
 
 dotenv.config();
@@ -40,14 +43,36 @@ app.use(limiter);
 // JSON body parser
 app.use(express.json());
 
-// Routes
-app.use('/api/books', require('./routes/books'));
-app.use('/api/authors', require('./routes/authors'));
-app.use('/api/genres', require('./routes/genres'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/users', require('./routes/userProfile'));
-app.use('/api/cart', require('./routes/cart'));
-app.use('/api/orders', require('./routes/orders'));
+// Performance monitoring
+app.use(requestTimer);
+app.use(memoryMonitor);
+
+// Analytics tracking
+app.use((req, res, next) => {
+  const startTime = Date.now();
+  res.on('finish', () => {
+    const responseTime = Date.now() - startTime;
+    analytics.trackRequest(req, res, responseTime);
+    if (res.statusCode >= 400) {
+      analytics.trackError();
+    }
+  });
+  next();
+});
+
+// Data sanitization
+app.use(mongoSanitize);
+app.use(xssClean);
+
+// Routes with API versioning
+app.use('/api/v1/books', require('./routes/books'));
+app.use('/api/v1/authors', require('./routes/authors'));
+app.use('/api/v1/genres', require('./routes/genres'));
+app.use('/api/v1/users', require('./routes/users'));
+app.use('/api/v1/profile', require('./routes/userProfile'));
+app.use('/api/v1/cart', require('./routes/cart'));
+app.use('/api/v1/orders', require('./routes/orders'));
+app.use('/api/v1/analytics', require('./routes/analytics'));
 
 // Health check endpoint
 app.get('/health', (req, res) => {

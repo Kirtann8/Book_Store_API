@@ -47,9 +47,7 @@ exports.validateUser = [
     .normalizeEmail()
     .custom(isUnique(User, 'email')),
   body('password')
-    .isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}|\[\]:";'<>?,./])[A-Za-z\d!@#$%^&*()_+\-={}|\[\]:";'<>?,./]{6,}$/)
-    .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number and one special character'),
+    .isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
   handleValidationErrors,
 ];
 
@@ -186,9 +184,7 @@ exports.validatePassword = [
     .withMessage('Current password is required'),
   body('newPassword')
     .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)
-    .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number and one special character'),
+    .withMessage('Password must be at least 6 characters'),
   body('confirmPassword')
     .custom((value, { req }) => {
       if (value !== req.body.newPassword) {
