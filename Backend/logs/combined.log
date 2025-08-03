@@ -1,0 +1,87 @@
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 200 - 26ms","timestamp":"2025-08-03 19:50:36"}
+{"level":"info","message":"GET /api/v1/genres - 200 - 26ms","timestamp":"2025-08-03 19:50:36"}
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 304 - 17ms","timestamp":"2025-08-03 19:50:36"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 17ms","timestamp":"2025-08-03 19:50:36"}
+{"email":"kirtan8@gmail.com","level":"info","message":"Attempting to register new user","timestamp":"2025-08-03 19:50:53"}
+{"email":"kirtan8@gmail.com","error":"Registration failed: Error creating user: db already exists with different case already have: [BookStoreDB] trying to create [bookstoreDB]","level":"error","message":"Registration failed","timestamp":"2025-08-03 19:50:54"}
+{"level":"info","message":"POST /api/v1/users/register - 500 - 609ms","timestamp":"2025-08-03 19:50:54"}
+{"level":"info","message":"GET /api/v1/users/register - 404 - 3ms","timestamp":"2025-08-03 19:51:01"}
+{"level":"info","message":"GET /api/v1/users/register - 404 - 2ms","timestamp":"2025-08-03 19:51:28"}
+{"email":"kirtan8@gmail.com","level":"info","message":"Attempting to register new user","timestamp":"2025-08-03 19:51:31"}
+{"email":"kirtan8@gmail.com","error":"Registration failed: Error creating user: db already exists with different case already have: [BookStoreDB] trying to create [bookstoreDB]","level":"error","message":"Registration failed","timestamp":"2025-08-03 19:51:31"}
+{"level":"info","message":"POST /api/v1/users/register - 500 - 318ms","timestamp":"2025-08-03 19:51:31"}
+{"email":"kirtan8@gmail.com","level":"info","message":"Attempting to register new user","timestamp":"2025-08-03 19:51:33"}
+{"email":"kirtan8@gmail.com","error":"Registration failed: Error creating user: db already exists with different case already have: [BookStoreDB] trying to create [bookstoreDB]","level":"error","message":"Registration failed","timestamp":"2025-08-03 19:51:33"}
+{"level":"info","message":"POST /api/v1/users/register - 500 - 572ms","timestamp":"2025-08-03 19:51:33"}
+{"email":"kirtan8@gmail.com","level":"info","message":"Attempting to register new user","timestamp":"2025-08-03 19:53:12"}
+{"email":"kirtan8@gmail.com","error":"Registration failed: Error creating user: db already exists with different case already have: [BookStoreDB] trying to create [bookstoreDB]","level":"error","message":"Registration failed","timestamp":"2025-08-03 19:53:12"}
+{"level":"info","message":"POST /api/v1/users/register - 500 - 306ms","timestamp":"2025-08-03 19:53:12"}
+{"email":"kirtan8@gmail.com","level":"info","message":"Attempting to register new user","timestamp":"2025-08-03 19:53:13"}
+{"email":"kirtan8@gmail.com","error":"Registration failed: Error creating user: db already exists with different case already have: [BookStoreDB] trying to create [bookstoreDB]","level":"error","message":"Registration failed","timestamp":"2025-08-03 19:53:14"}
+{"level":"info","message":"POST /api/v1/users/register - 500 - 440ms","timestamp":"2025-08-03 19:53:14"}
+{"email":"kdp86205@gmail.com","level":"info","message":"Attempting to register new user","timestamp":"2025-08-03 19:53:27"}
+{"email":"kdp86205@gmail.com","error":"Registration failed: Error creating user: db already exists with different case already have: [BookStoreDB] trying to create [bookstoreDB]","level":"error","message":"Registration failed","timestamp":"2025-08-03 19:53:28"}
+{"level":"info","message":"POST /api/v1/users/register - 500 - 279ms","timestamp":"2025-08-03 19:53:28"}
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 304 - 27ms","timestamp":"2025-08-03 20:41:08"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 25ms","timestamp":"2025-08-03 20:41:08"}
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 304 - 15ms","timestamp":"2025-08-03 20:41:08"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 17ms","timestamp":"2025-08-03 20:41:08"}
+{"level":"info","message":"GET /api/v1/authors - 200 - 21ms","timestamp":"2025-08-03 20:41:18"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 200 - 23ms","timestamp":"2025-08-03 20:41:18"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 25ms","timestamp":"2025-08-03 20:41:18"}
+{"level":"info","message":"GET /api/v1/authors - 304 - 23ms","timestamp":"2025-08-03 20:41:18"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 30ms","timestamp":"2025-08-03 20:41:18"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 29ms","timestamp":"2025-08-03 20:41:18"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 17ms","timestamp":"2025-08-03 20:41:23"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 16ms","timestamp":"2025-08-03 20:41:23"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 16ms","timestamp":"2025-08-03 20:41:24"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 16ms","timestamp":"2025-08-03 20:41:24"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 18ms","timestamp":"2025-08-03 20:41:24"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 16ms","timestamp":"2025-08-03 20:41:24"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 16ms","timestamp":"2025-08-03 20:41:24"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 19ms","timestamp":"2025-08-03 20:41:25"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 17ms","timestamp":"2025-08-03 20:41:25"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 16ms","timestamp":"2025-08-03 20:41:25"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 16ms","timestamp":"2025-08-03 20:41:25"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 18ms","timestamp":"2025-08-03 20:41:25"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 16ms","timestamp":"2025-08-03 20:41:26"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 17ms","timestamp":"2025-08-03 20:41:30"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 21ms","timestamp":"2025-08-03 20:41:37"}
+{"level":"info","message":"GET /api/v1/authors - 304 - 24ms","timestamp":"2025-08-03 20:41:37"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 26ms","timestamp":"2025-08-03 20:41:37"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 17ms","timestamp":"2025-08-03 20:41:37"}
+{"level":"info","message":"GET /api/v1/authors - 304 - 18ms","timestamp":"2025-08-03 20:41:37"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 17ms","timestamp":"2025-08-03 20:41:37"}
+{"email":"kjspa7541@gmail.com","level":"info","message":"Attempting to register new user","timestamp":"2025-08-03 20:41:55"}
+{"email":"kjspa7541@gmail.com","level":"info","message":"User registered successfully","timestamp":"2025-08-03 20:41:56"}
+{"level":"info","message":"POST /api/v1/users/register - 201 - 542ms","timestamp":"2025-08-03 20:41:56"}
+{"level":"info","message":"GET /api/v1/cart - 401 - 4ms","timestamp":"2025-08-03 20:41:56"}
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 304 - 19ms","timestamp":"2025-08-03 20:41:56"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 17ms","timestamp":"2025-08-03 20:41:56"}
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 304 - 15ms","timestamp":"2025-08-03 20:41:56"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 15ms","timestamp":"2025-08-03 20:41:56"}
+{"email":"kjspa7541@gmail.com","level":"info","message":"Attempting user login","timestamp":"2025-08-03 20:42:20"}
+{"email":"kjspa7541@gmail.com","level":"info","message":"User logged in successfully","timestamp":"2025-08-03 20:42:20"}
+{"level":"info","message":"POST /api/v1/users/login - 200 - 519ms","timestamp":"2025-08-03 20:42:20"}
+{"level":"info","message":"GET /api/v1/cart - 200 - 42ms","timestamp":"2025-08-03 20:42:20"}
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 304 - 18ms","timestamp":"2025-08-03 20:42:20"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 16ms","timestamp":"2025-08-03 20:42:20"}
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 304 - 18ms","timestamp":"2025-08-03 20:42:20"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 17ms","timestamp":"2025-08-03 20:42:20"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 16ms","timestamp":"2025-08-03 20:42:28"}
+{"level":"info","message":"GET /api/v1/authors - 304 - 19ms","timestamp":"2025-08-03 20:42:28"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 20ms","timestamp":"2025-08-03 20:42:28"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 15ms","timestamp":"2025-08-03 20:42:28"}
+{"level":"info","message":"GET /api/v1/authors - 304 - 17ms","timestamp":"2025-08-03 20:42:28"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 17ms","timestamp":"2025-08-03 20:42:28"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 17ms","timestamp":"2025-08-03 20:42:29"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 18ms","timestamp":"2025-08-03 20:42:30"}
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 304 - 18ms","timestamp":"2025-08-03 20:42:30"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 15ms","timestamp":"2025-08-03 20:42:30"}
+{"level":"info","message":"GET /api/v1/books?limit=8&sort=-createdAt - 304 - 17ms","timestamp":"2025-08-03 20:42:30"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 16ms","timestamp":"2025-08-03 20:42:38"}
+{"level":"info","message":"GET /api/v1/authors - 304 - 19ms","timestamp":"2025-08-03 20:42:38"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 22ms","timestamp":"2025-08-03 20:42:38"}
+{"level":"info","message":"GET /api/v1/genres - 304 - 17ms","timestamp":"2025-08-03 20:42:38"}
+{"level":"info","message":"GET /api/v1/authors - 304 - 15ms","timestamp":"2025-08-03 20:42:38"}
+{"level":"info","message":"GET /api/v1/books?sort=title&page=1&limit=12 - 304 - 16ms","timestamp":"2025-08-03 20:42:38"}
